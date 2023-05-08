@@ -6,14 +6,20 @@ import '../constants.dart';
 
 enum MenuOption { edit, delete }
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(title: const Text("Contacts"), actions: [
         IconButton(
@@ -105,12 +111,20 @@ class HomePage extends StatelessWidget {
         onPressed: () async {
           await AuthService().updateUserContact(
               context: context,
-              email: "pratt1697@gmail.com",
-              name: "pratty",
-              phone: 1234567890);
+              email: context.read<SharedPrefsModel>().email.toString(),
+              name: nameController.text,
+              phone: int.parse(phoneController.text));
         },
         child: const Icon(Icons.logout),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    phoneController.dispose();
+    emailController.dispose();
+    super.dispose();
   }
 }
