@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       routes: {
-        '/home-screen': (context) => const HomePage(),
+        '/home-screen': (context) => HomePage(),
         '/login-screen': (context) => const LoginScreen(),
       },
       initialRoute: email == "" ? '/login-screen' : '/home-screen',

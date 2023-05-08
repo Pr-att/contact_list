@@ -7,10 +7,13 @@ import '../constants.dart';
 enum MenuOption { edit, delete }
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+  HomePage({Key? key}) : super(key: key);
+  TextEditingController nameController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(title: const Text("Contacts"), actions: [
         IconButton(
@@ -35,13 +38,15 @@ class HomePage extends StatelessWidget {
                       title: const Text('Edit Contact'),
                       content: Column(
                         mainAxisSize: MainAxisSize.min,
-                        children: const <Widget>[
+                        children: [
                           TextField(
-                            decoration: InputDecoration(
+                            controller: nameController,
+                            decoration: const InputDecoration(
                                 hintText: "Enter your name", labelText: "Name"),
                           ),
                           TextField(
-                            decoration: InputDecoration(
+                            controller: phoneController,
+                            decoration: const InputDecoration(
                                 hintText: "Enter your phone number",
                                 labelText: "Phone Number"),
                           ),
@@ -58,9 +63,12 @@ class HomePage extends StatelessWidget {
                           onPressed: () {
                             AuthService().updateUserContact(
                                 context: context,
-                                name: "pratty",
-                                phone: 1234567890,
-                                email: 'pratt1697@gmail.com');
+                                name: nameController.text,
+                                phone: int.parse(phoneController.text),
+                                email: context
+                                    .read<SharedPrefsModel>()
+                                    .email
+                                    .toString());
                             Navigator.pop(context);
                           },
                           child: const Text('Save'),
